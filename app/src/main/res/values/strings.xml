@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EthChecker</string>
+    <string name="title_activity_main">Eth Checker</string>
 </resources>
