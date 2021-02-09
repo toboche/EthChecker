@@ -1,5 +1,6 @@
 package pl.toboche.ethchecker.home.ui
 
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import pl.toboche.ethchecker.R
@@ -23,6 +24,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
     }
 
     override fun showAddress(ethereumAddress: String) {
-        TODO("Not yet implemented")
+        requireView().findViewById<TextView>(R.id.address_text).text = ethereumAddress
     }
 }
