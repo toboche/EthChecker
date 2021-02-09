@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">EthChecker</string>
     <string name="title_activity_main">Eth Checker</string>
+    <string name="address_header">Address:</string>
 </resources>

@@ -1,6 +1,6 @@
 package pl.toboche.ethchecker.base
 
-abstract class Presenter<View> {
+abstract class BasePresenter<View> {
     var view: View? = null
 
     open fun attach(view: View) {

@@ -3,6 +3,7 @@
     package="pl.toboche.ethchecker">
 
     <application
+        android:name=".base.EthCheckerApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"

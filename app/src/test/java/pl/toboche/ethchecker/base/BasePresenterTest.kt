@@ -4,11 +4,11 @@ import com.nhaarman.mockito_kotlin.mock
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
-class PresenterTest {
-    class TestPresenter<View> : Presenter<View>()
+class BasePresenterTest {
+    class TestBasePresenter<View> : BasePresenter<View>()
 
     val mockView = mock<Any>()
-    val systemUnderTest = TestPresenter<Any>()
+    val systemUnderTest = TestBasePresenter<Any>()
 
     @Test
     fun `should attach view`() {
