@@ -30,12 +30,26 @@ class HomePresenter @Inject constructor(
                 "..." +
                 ETHEREUM_ADDRESS.takeLast(LAST_DIGITS_TO_TAKE)
         view.showAddress(addressToShow)
+        view.showProgress()
         applicationScheduler.schedule(
             balanceRepository.getAccountBalance(ETHEREUM_ADDRESS),
-            { showBalance(view, currencyInstance, it, ethFormat) },
-            { showError(view) },
+            { onBalanceLoaded(view, it) },
+            { onaBalanceLoadingFailed(view) },
             this
         )
+    }
+
+    private fun onaBalanceLoadingFailed(view: HomeContract.View) {
+        view.hideProgress()
+        showError(view)
+    }
+
+    private fun onBalanceLoaded(
+        view: HomeContract.View,
+        it: AccountBalance
+    ) {
+        view.hideProgress()
+        showBalance(view, currencyInstance, it, ethFormat)
     }
 
     private fun showError(view: HomeContract.View) =

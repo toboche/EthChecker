@@ -52,11 +52,35 @@ class HomePresenterTest {
     }
 
     @Test
+    fun `control progress bar visibility when loading data`() {
+        systemUnderTest.attach(mockView)
+
+        inOrder(mockView, mockBalanceRepository).apply {
+            verify(mockView).showProgress()
+            verify(mockBalanceRepository).getAccountBalance(any())
+            verify(mockView).hideProgress()
+        }
+    }
+
+    @Test
     fun `show error getting ethereum formatted balance`() {
         whenever(mockBalanceRepository.getAccountBalance(any())).thenReturn(Single.error(Exception()))
         systemUnderTest.attach(mockView)
 
         verify(mockView, never()).showBalance(any())
         verify(mockView).showError("Error loading data")
+    }
+
+    @Test
+    fun `control progress bar visibility when error loading data`() {
+        whenever(mockBalanceRepository.getAccountBalance(any())).thenReturn(Single.error(Exception()))
+
+        systemUnderTest.attach(mockView)
+
+        inOrder(mockView, mockBalanceRepository).apply {
+            verify(mockView).showProgress()
+            verify(mockBalanceRepository).getAccountBalance(any())
+            verify(mockView).hideProgress()
+        }
     }
 }

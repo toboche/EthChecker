@@ -9,6 +9,8 @@ class HomeContract {
         fun showAddress(ethereumAddress: String)
         fun showBalance(ethereumAddress: String)
         fun showError(errorText: String)
+        fun showProgress()
+        fun hideProgress()
     }
 }
 

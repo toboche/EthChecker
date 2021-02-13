@@ -1,5 +1,7 @@
 package pl.toboche.ethchecker.home.ui
 
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -34,5 +36,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
 
     override fun showError(errorText: String) {
         Toast.makeText(requireContext(), errorText, Toast.LENGTH_LONG).show()
+    }
+
+    override fun showProgress() {
+        requireView().findViewById<ProgressBar>(R.id.home_progress_bar).visibility = View.VISIBLE
+
+    }
+
+    override fun hideProgress() {
+        requireView().findViewById<ProgressBar>(R.id.home_progress_bar).visibility = View.INVISIBLE
     }
 }
