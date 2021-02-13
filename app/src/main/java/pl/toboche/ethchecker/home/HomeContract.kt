@@ -11,6 +11,8 @@ class HomeContract {
         fun showError(errorText: String)
         fun showProgress()
         fun hideProgress()
+        fun navigateToErc20Screen()
+        fun setErc20BalanceButtonAction(function: () -> Unit)
     }
 }
 

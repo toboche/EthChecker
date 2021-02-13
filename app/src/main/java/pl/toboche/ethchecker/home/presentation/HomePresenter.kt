@@ -37,6 +37,7 @@ class HomePresenter @Inject constructor(
             { onaBalanceLoadingFailed(view) },
             this
         )
+        view.setErc20BalanceButtonAction { view.navigateToErc20Screen() }
     }
 
     private fun onaBalanceLoadingFailed(view: HomeContract.View) {

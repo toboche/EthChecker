@@ -83,4 +83,16 @@ class HomePresenterTest {
             verify(mockView).hideProgress()
         }
     }
+
+    @Test
+    fun `navigate to erc20 screen when button clicked`() {
+        val captor = argumentCaptor<() -> Unit>()
+
+        systemUnderTest.attach(mockView)
+
+        verify(mockView).setErc20BalanceButtonAction(captor.capture())
+        captor.firstValue.invoke()
+
+        verify(mockView).navigateToErc20Screen()
+    }
 }

@@ -1,6 +1,7 @@
 package pl.toboche.ethchecker.home.ui
 
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -45,5 +46,15 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
 
     override fun hideProgress() {
         requireView().findViewById<ProgressBar>(R.id.home_progress_bar).visibility = View.INVISIBLE
+    }
+
+    override fun navigateToErc20Screen() {
+        TODO("Not yet implemented")
+    }
+
+    override fun setErc20BalanceButtonAction(function: () -> Unit) {
+        requireView().findViewById<Button>(R.id.erc_tokens_balance_button).setOnClickListener {
+            function()
+        }
     }
 }
