@@ -2,4 +2,5 @@
     <string name="app_name">EthChecker</string>
     <string name="title_activity_main">Eth Checker</string>
     <string name="address_header">Address:</string>
+    <string name="balance_header">ETH Balance:</string>
 </resources>

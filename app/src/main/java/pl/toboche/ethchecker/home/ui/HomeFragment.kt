@@ -1,6 +1,7 @@
 package pl.toboche.ethchecker.home.ui
 
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import pl.toboche.ethchecker.R
@@ -25,5 +26,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
 
     override fun showAddress(ethereumAddress: String) {
         requireView().findViewById<TextView>(R.id.address_text).text = ethereumAddress
+    }
+
+    override fun showBalance(ethereumAddress: String) {
+        requireView().findViewById<TextView>(R.id.balance_text).text = ethereumAddress
+    }
+
+    override fun showError(errorText: String) {
+        Toast.makeText(requireContext(), errorText, Toast.LENGTH_LONG).show()
     }
 }

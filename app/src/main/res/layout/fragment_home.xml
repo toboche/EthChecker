@@ -19,9 +19,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/address_text"
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="0dp"
-        android:id="@+id/address_text"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingTop="8dp"
@@ -29,5 +29,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/address_header"
         tools:text="0x0aaad...1231" />
+
+    <TextView
+        android:id="@+id/balance_header"
+        style="@style/TextAppearance.AppCompat.Headline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="50dp"
+        android:text="@string/balance_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/address_text" />
+
+    <TextView
+        android:id="@+id/balance_text"
+        style="@style/TextAppearance.AppCompat.Display1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/balance_header"
+        tools:text="$950 (2.3 ETH)" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

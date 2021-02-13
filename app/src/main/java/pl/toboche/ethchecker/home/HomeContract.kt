@@ -7,6 +7,8 @@ class HomeContract {
 
     interface View {
         fun showAddress(ethereumAddress: String)
+        fun showBalance(ethereumAddress: String)
+        fun showError(errorText: String)
     }
 }
 
