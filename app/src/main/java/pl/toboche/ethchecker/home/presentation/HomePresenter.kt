@@ -46,10 +46,10 @@ class HomePresenter @Inject constructor(
 
     private fun onBalanceLoaded(
         view: HomeContract.View,
-        it: AccountBalance
+        accountBalance: AccountBalance
     ) {
         view.hideProgress()
-        showBalance(view, currencyInstance, it, ethFormat)
+        showBalance(view, currencyInstance, accountBalance, ethFormat)
     }
 
     private fun showError(view: HomeContract.View) =
@@ -58,10 +58,10 @@ class HomePresenter @Inject constructor(
     private fun showBalance(
         view: HomeContract.View,
         currencyInstance: NumberFormat,
-        it: AccountBalance,
+        accountBalance: AccountBalance,
         ethFormat: DecimalFormat
     ) = view.showBalance(
-        "${currencyInstance.format(it.dollars)} (${ethFormat.format(it.ethereum)}) ETH"
+        "${currencyInstance.format(accountBalance.dollars)} (${ethFormat.format(accountBalance.ethereum)}) ETH"
     )
 
     override fun detach() {
