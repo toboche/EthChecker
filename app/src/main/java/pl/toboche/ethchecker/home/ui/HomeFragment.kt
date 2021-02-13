@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import pl.toboche.ethchecker.R
+import pl.toboche.ethchecker.base.MainActivity
 import pl.toboche.ethchecker.home.HomeContract
 import javax.inject.Inject
 
@@ -49,7 +50,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
     }
 
     override fun navigateToErc20Screen() {
-        TODO("Not yet implemented")
+        //in a production app this could be done in some form of a navigator
+        (requireActivity() as MainActivity).showErc20BalanceScreen()
     }
 
     override fun setErc20BalanceButtonAction(function: () -> Unit) {

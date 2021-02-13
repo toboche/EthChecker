@@ -4,4 +4,6 @@
     <string name="address_header">Address:</string>
     <string name="balance_header">ETH Balance:</string>
     <string name="erc_tokens_balance_button">ERC20 TOKENS</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
