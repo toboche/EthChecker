@@ -38,8 +38,7 @@ class Erc20BalancePresenterTest {
 
     @Test
     fun `show error loading data`() {
-        whenever(mockErc20TokenBalanceRepository.getTokenBalancesWithNameContaining(any()))
-            .thenReturn(Single.error(NullPointerException()))
+        givenLoadingDataWillFail()
 
         systemUnderTest.attach(mockView)
 
@@ -52,6 +51,30 @@ class Erc20BalancePresenterTest {
             verify(mockView).hideProgress()
             verify(mockView).showError("Error refreshing the list")
         }
+    }
+
+    @Test
+    fun `show results when initial loading failed`() {
+        givenLoadingDataWillFail()
+
+        systemUnderTest.attach(mockView)
+
+        userInputProcessor.onNext("testInput")
+        testScheduler.advanceTimeBy(debounceInMillis, TimeUnit.MILLISECONDS)
+        verify(mockView).showError("Error refreshing the list")
+        verify(mockView).showBalanceDescriptions(any())
+
+        whenever(mockErc20TokenBalanceRepository.getTokenBalancesWithNameContaining(any()))
+            .thenReturn(Single.just(emptyList()))
+
+        userInputProcessor.onNext("testInput2")
+        testScheduler.advanceTimeBy(debounceInMillis, TimeUnit.MILLISECONDS)
+        verify(mockView, times(2)).showBalanceDescriptions(any())
+    }
+
+    private fun givenLoadingDataWillFail() {
+        whenever(mockErc20TokenBalanceRepository.getTokenBalancesWithNameContaining(any()))
+            .thenReturn(Single.error(NullPointerException()))
     }
 
     @Test
@@ -119,6 +142,27 @@ class Erc20BalancePresenterTest {
         val expectedSymbol = "UNI"
         val expectedBalance = "10"
         val userQuery = "uni"
+        givenResultWillBeReturned(userQuery, expectedSymbol, expectedBalance)
+
+        systemUnderTest.attach(mockView)
+
+        userInputProcessor.onNext(userQuery)
+        testScheduler.advanceTimeBy(debounceInMillis, TimeUnit.MILLISECONDS)
+
+        verify(mockView).showBalanceDescriptions(
+            listOf(
+                Erc20TokenBalanceDescription(
+                    "$expectedSymbol Balance: $expectedBalance $expectedSymbol"
+                )
+            )
+        )
+    }
+
+    private fun givenResultWillBeReturned(
+        userQuery: String,
+        expectedSymbol: String,
+        expectedBalance: String
+    ) {
         whenever(mockErc20TokenBalanceRepository.getTokenBalancesWithNameContaining(userQuery))
             .thenReturn(
                 Single.just(
@@ -130,18 +174,5 @@ class Erc20BalancePresenterTest {
                     )
                 )
             )
-
-        systemUnderTest.attach(mockView)
-
-        userInputProcessor.onNext(userQuery)
-        testScheduler.advanceTimeBy(debounceInMillis, TimeUnit.MILLISECONDS)
-
-        verify(mockView).showBalanceDescriptions(
-            listOf(
-                Erc20TokenBalanceDescription(
-                    "UNI Balance: 10 UNI"
-                )
-            )
-        )
     }
 }

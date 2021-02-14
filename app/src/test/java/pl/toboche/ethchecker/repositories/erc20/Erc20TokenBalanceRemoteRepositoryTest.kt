@@ -56,6 +56,20 @@ class Erc20TokenBalanceRemoteRepositoryTest {
     }
 
     @Test
+    fun `do not cache the erc20 token list request when it failed`() {
+        givenTokensRequestWillFail()
+        systemUnderTest.getTokenBalancesWithNameContaining(mockUserQuery)
+            .test()
+
+        givenTokensWillBeReturned(mockResponseToken, mockResponseToken)
+        systemUnderTest.getTokenBalancesWithNameContaining(mockUserQuery)
+            .test()
+
+        verify(mockErc20TokenListRetrofitService, times(2)).getTokens(any(), any())
+        verifyNoMoreInteractions(mockErc20TokenListRetrofitService)
+    }
+
+    @Test
     fun `return balance for token matching user query`() {
         val userQuery = "USD"
         val matchingTokenModel = usdtTokenModel
@@ -124,6 +138,13 @@ class Erc20TokenBalanceRemoteRepositoryTest {
                         )
                     )
                 )
+            )
+    }
+
+    private fun givenTokensRequestWillFail() {
+        whenever(mockErc20TokenListRetrofitService.getTokens(any(), any()))
+            .thenReturn(
+                Single.error(NullPointerException())
             )
     }
 }

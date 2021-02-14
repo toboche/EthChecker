@@ -1,5 +1,6 @@
 package pl.toboche.ethchecker.erc20balance.presentation
 
+import io.reactivex.Single
 import pl.toboche.ethchecker.base.scheduler.ApplicationScheduler
 import pl.toboche.ethchecker.erc20balance.Erc20BalanceContract
 import pl.toboche.ethchecker.erc20balance.ui.Erc20TokenBalanceDescription
@@ -15,16 +16,23 @@ class Erc20BalancePresenter @Inject constructor(
 
     override fun attach(view: Erc20BalanceContract.View) {
         super.attach(view)
+        subscribeToUserQueryUpdates(view)
+    }
+
+    private fun subscribeToUserQueryUpdates(view: Erc20BalanceContract.View) {
         scheduler.schedule(
             flowable = view.getUserInput()
                 .filter { it.length > 1 }
                 .debounce(300, TimeUnit.MILLISECONDS, scheduler.executingScheduler)
+                .observeOn(scheduler.observingScheduler)
                 .doOnNext { view.showProgress() }
-                .subscribeOn(scheduler.executingScheduler)
                 .observeOn(scheduler.executingScheduler)
                 .switchMapSingle {
                     erc20TokenBalanceRepository.getTokenBalancesWithNameContaining(it.toString())
                         .map { mapToListOfBalanceDescriptions(it) }
+                        .observeOn(scheduler.observingScheduler)
+                        .doOnError { onErrorRefreshingList(view) }
+                        .onErrorResumeNext(Single.just(emptyList()))
                 },
             { onListRefreshingComplete(view, it) },
             { onErrorRefreshingList(view) },

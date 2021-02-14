@@ -8,15 +8,14 @@ import java.util.*
 import javax.inject.Inject
 
 class Erc20TokenBalanceRemoteRepository @Inject constructor(
-    erc20TokenListRetrofitService: Erc20TokenListRetrofitService,
+    private val erc20TokenListRetrofitService: Erc20TokenListRetrofitService,
     private val balanceRetrofitService: BalanceRetrofitService
 ) : Erc20TokenBalanceRepository {
 
-    private val cachedTokens = erc20TokenListRetrofitService.getTokens()
-        .cache()
+    private var cachedTokens: TokensResponse? = null
 
     override fun getTokenBalancesWithNameContaining(searchText: String): Single<List<Erc20TokenBalance>> {
-        return cachedTokens
+        return getCachedTokens()
             .map { it.tokenModels }
             .flattenAsFlowable { it }
             .filter { symbolContainsSearchText(it, searchText) }
@@ -28,6 +27,14 @@ class Erc20TokenBalanceRemoteRepository @Inject constructor(
             }
             .toList()
     }
+
+    private fun getCachedTokens(): Single<TokensResponse> =
+        if (cachedTokens == null) {
+            erc20TokenListRetrofitService.getTokens()
+                .doOnSuccess { cachedTokens = it }
+        } else {
+            Single.just(cachedTokens)
+        }
 
     private fun mapToTokenBalance(
         tokenModel: TokenModel,

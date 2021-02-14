@@ -3,6 +3,8 @@ package pl.toboche.ethchecker.erc20balance.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding3.widget.textChanges
@@ -45,15 +47,17 @@ class Erc20BalanceFragment : Fragment(R.layout.fragment_erc20_balance), Erc20Bal
     }
 
     override fun showProgress() {
-//TODO
+        requireView()
+            .findViewById<ProgressBar>(R.id.erc_20_progress_bar).visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-//TODO
+        requireView()
+            .findViewById<ProgressBar>(R.id.erc_20_progress_bar).visibility = View.GONE
     }
 
     override fun showError(error: String) {
-//TODO
+        Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
     }
 
 }
