@@ -1,5 +1,6 @@
 package pl.toboche.ethchecker.home.ui
 
+import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -18,14 +19,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeContract.View {
     @Inject
     lateinit var presenter: HomeContract.Presenter
 
-    override fun onResume() {
-        super.onResume()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         presenter.attach(this)
     }
 
-    override fun onPause() {
+    override fun onDestroyView() {
         presenter.detach()
-        super.onPause()
+        super.onDestroyView()
     }
 
     override fun showAddress(ethereumAddress: String) {

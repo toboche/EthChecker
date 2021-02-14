@@ -6,4 +6,5 @@
     <string name="erc_tokens_balance_button">ERC20 TOKENS</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_for_and_erc20_token_edit_text_hint">Search for and ERC20 token</string>
 </resources>

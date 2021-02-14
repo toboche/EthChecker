@@ -18,7 +18,7 @@ class BalanceRemoteRepositoryTest {
         result = mockEthBalanceString
     )
     val mockBalanceRetrofitService: BalanceRetrofitService = mock {
-        on { getBalance(any(), any(), any(), any(), any()) } doReturn Single.just(
+        on { getBalance(any()) } doReturn Single.just(
             mockBalanceResponse
         )
     }
@@ -64,7 +64,7 @@ class BalanceRemoteRepositoryTest {
 
     @Test
     fun `handle errors when requesting balance`() {
-        whenever(mockBalanceRetrofitService.getBalance(any(), any(), any(), any(), any()))
+        whenever(mockBalanceRetrofitService.getBalance(any()))
             .thenReturn(Single.error(mockError))
 
         systemUnderTest.getAccountBalance(mockAddress)

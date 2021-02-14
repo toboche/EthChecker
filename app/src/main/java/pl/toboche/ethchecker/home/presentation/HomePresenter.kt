@@ -1,5 +1,6 @@
 package pl.toboche.ethchecker.home.presentation
 
+import pl.toboche.ethchecker.base.ConfigurationConstants.ETHEREUM_ADDRESS
 import pl.toboche.ethchecker.base.scheduler.ApplicationScheduler
 import pl.toboche.ethchecker.home.HomeContract
 import pl.toboche.ethchecker.repositories.balance.AccountBalance
@@ -15,7 +16,6 @@ class HomePresenter @Inject constructor(
 ) : HomeContract.Presenter() {
 
     companion object {
-        const val ETHEREUM_ADDRESS = "0xde57844f758a0a6a1910a4787ab2f7121c8978c3"
         const val LAST_DIGITS_TO_TAKE = 4
         const val FIRST_DIGITS_TO_TAKE = 6
         val currencyInstance: NumberFormat = NumberFormat.getCurrencyInstance(Locale.US)

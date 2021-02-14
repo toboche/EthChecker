@@ -30,35 +30,6 @@ class BalanceRetrofitServiceTest {
     }
 
     @Test
-    fun `make valid request`() {
-        val expectedAddress = "address"
-        val expectedModule = "module"
-        val expectedAction = "action"
-        val expectedTag = "tag"
-        val expectedApiKey = "apiKey"
-
-        systemUnderTest.getBalance(
-            expectedAddress,
-            expectedModule,
-            expectedAction,
-            expectedTag,
-            expectedApiKey
-        )
-            .test()
-
-        val request = server.takeRequest()
-
-        assertThat(request.path).isEqualTo(
-            "/api?" +
-                    "address=$expectedAddress&" +
-                    "module=$expectedModule&" +
-                    "action=$expectedAction&" +
-                    "tag=$expectedTag&" +
-                    "apiKey=$expectedApiKey"
-        )
-    }
-
-    @Test
     fun `make valid request with default param values`() {
         val expectedAddress = mockAddress
         val expectedModule = "account"
@@ -75,11 +46,11 @@ class BalanceRetrofitServiceTest {
 
         assertThat(request.path).isEqualTo(
             "/api?" +
-                    "address=$expectedAddress&" +
                     "module=$expectedModule&" +
                     "action=$expectedAction&" +
                     "tag=$expectedTag&" +
-                    "apiKey=$expectedApiKey"
+                    "apiKey=$expectedApiKey&" +
+                    "address=$expectedAddress"
         )
     }
 

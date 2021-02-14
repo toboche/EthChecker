@@ -1,4 +1,4 @@
-package pl.toboche.ethchecker.repositories.price
+package pl.toboche.ethchecker.repositories.erc20
 
 import dagger.Module
 import dagger.Provides
@@ -11,17 +11,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 @InstallIn(SingletonComponent::class)
-class ProvidedPriceModule(
-    private val url: String = "https://api.coingecko.com/"
+class ProvidedErc20TokenListModule(
+    private val url: String = "https://api.ethplorer.io/"
 ) {
 
     @Provides
-    fun providePriceRetrofitService(okHttpClient: OkHttpClient): CryptoPriceRetrofitService =
+    fun provideBalanceRetrofitService(okHttpClient: OkHttpClient): Erc20TokenListRetrofitService =
         Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(url)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(CryptoPriceRetrofitService::class.java)
+            //I'd consider providing this builder from another module
+            .create(Erc20TokenListRetrofitService::class.java)
 }
