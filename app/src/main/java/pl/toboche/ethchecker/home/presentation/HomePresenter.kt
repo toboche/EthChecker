@@ -68,7 +68,7 @@ class HomePresenter @Inject constructor(
         accountBalance: AccountBalance,
         ethFormat: DecimalFormat
     ) = view.showBalance(
-        "${currencyInstance.format(accountBalance.dollars)} (${ethFormat.format(accountBalance.ethereum)}) ETH"
+        "${currencyInstance.format(accountBalance.dollars)} (${ethFormat.format(accountBalance.ethereum)} ETH)"
     )
 
     override fun detach() {

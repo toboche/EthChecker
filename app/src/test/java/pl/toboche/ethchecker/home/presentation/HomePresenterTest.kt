@@ -48,7 +48,7 @@ class HomePresenterTest {
     fun `show ethereum formatted balance`() {
         systemUnderTest.attach(mockView)
 
-        verify(mockView).showBalance("\$9.00 (123.00) ETH")
+        verify(mockView).showBalance("\$9.00 (123.00 ETH)")
     }
 
     @Test
