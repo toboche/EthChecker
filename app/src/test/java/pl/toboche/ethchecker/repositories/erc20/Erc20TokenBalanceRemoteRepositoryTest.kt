@@ -28,9 +28,15 @@ class Erc20TokenBalanceRemoteRepositoryTest {
         on { getErc20TokenBalance(any(), any()) } doReturn Single.just(mockBalanceResponse)
     }
 
+    val mockEthAddress = "0xde57844f758a0a6a1910a4787ab2f7121c8978c3"
+    val mockConfigurationConstants: ConfigurationConstants = mock {
+        on { ethereumAddress } doReturn mockEthAddress
+    }
+
     val systemUnderTest = Erc20TokenBalanceRemoteRepository(
         mockErc20TokenListRetrofitService,
-        mockBalanceRetrofitService
+        mockBalanceRetrofitService,
+        mockConfigurationConstants
     )
 
     val mockUserQuery = "queryHere"
@@ -82,7 +88,8 @@ class Erc20TokenBalanceRemoteRepositoryTest {
         )
         val systemUnderTest = Erc20TokenBalanceRemoteRepository(
             mockErc20TokenListRetrofitService,
-            mockBalanceRetrofitService
+            mockBalanceRetrofitService,
+            mockConfigurationConstants
         )
 
         systemUnderTest.getTokenBalancesWithNameContaining(userQuery)
@@ -97,7 +104,7 @@ class Erc20TokenBalanceRemoteRepositoryTest {
             )
 
         verify(mockBalanceRetrofitService).getErc20TokenBalance(
-            address = ConfigurationConstants.ETHEREUM_ADDRESS,
+            address = mockEthAddress,
             contractAddress = matchingTokenModel.address
         )
         verifyNoMoreInteractions(mockBalanceRetrofitService)
@@ -109,7 +116,7 @@ class Erc20TokenBalanceRemoteRepositoryTest {
     ) {
         whenever(
             mockBalanceRetrofitService.getErc20TokenBalance(
-                address = ConfigurationConstants.ETHEREUM_ADDRESS,
+                address = mockEthAddress,
                 contractAddress = matchingTokenModel.address
             )
         )

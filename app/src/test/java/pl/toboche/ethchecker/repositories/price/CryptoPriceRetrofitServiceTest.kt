@@ -1,5 +1,7 @@
 package pl.toboche.ethchecker.repositories.price
 
+import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.mock
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -7,15 +9,21 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import pl.toboche.ethchecker.base.ConfigurationConstants
 
 class CryptoPriceRetrofitServiceTest {
 
     val server = MockWebServer().apply {
         start()
     }
+    val mockConfigurationConstants: ConfigurationConstants = mock {
+        on { coingeckoApiUrl } doReturn server.url("/").toString()
+    }
+
     val systemUnderTest =
-        ProvidedPriceModule(server.url("/").toString()).providePriceRetrofitService(
-            OkHttpClient()
+        ProvidedPriceModule().providePriceRetrofitService(
+            OkHttpClient(),
+            mockConfigurationConstants
         )
 
     val mockIds = "expectedIds"

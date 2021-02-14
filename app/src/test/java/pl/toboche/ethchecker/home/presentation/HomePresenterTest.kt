@@ -4,6 +4,7 @@ import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import org.junit.Test
+import pl.toboche.ethchecker.base.ConfigurationConstants
 import pl.toboche.ethchecker.base.scheduler.DefaultScheduler
 import pl.toboche.ethchecker.home.HomeContract
 import pl.toboche.ethchecker.repositories.balance.AccountBalance
@@ -23,8 +24,16 @@ class HomePresenterTest {
     }
     val stubApplicationScheduler =
         DefaultScheduler(Schedulers.trampoline(), Schedulers.trampoline())
+    val mockConfigurationConstants: ConfigurationConstants = mock {
+        on { ethereumAddress } doReturn "0xde57844f758a0a6a1910a4787ab2f7121c8978c3"
+    }
 
-    val systemUnderTest = HomePresenter(mockBalanceRepository, stubApplicationScheduler)
+    val systemUnderTest =
+        HomePresenter(
+            mockBalanceRepository,
+            stubApplicationScheduler,
+            mockConfigurationConstants
+        )
 
     @Test
     fun `show ethereum address`() {

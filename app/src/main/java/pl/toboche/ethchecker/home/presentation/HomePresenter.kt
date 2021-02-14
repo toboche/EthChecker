@@ -1,6 +1,6 @@
 package pl.toboche.ethchecker.home.presentation
 
-import pl.toboche.ethchecker.base.ConfigurationConstants.ETHEREUM_ADDRESS
+import pl.toboche.ethchecker.base.ConfigurationConstants
 import pl.toboche.ethchecker.base.scheduler.ApplicationScheduler
 import pl.toboche.ethchecker.home.HomeContract
 import pl.toboche.ethchecker.repositories.balance.AccountBalance
@@ -12,7 +12,8 @@ import javax.inject.Inject
 
 class HomePresenter @Inject constructor(
     private val balanceRepository: BalanceRepository,
-    private val applicationScheduler: ApplicationScheduler
+    private val applicationScheduler: ApplicationScheduler,
+    private val configurationConstants: ConfigurationConstants
 ) : HomeContract.Presenter() {
 
     companion object {
@@ -33,13 +34,14 @@ class HomePresenter @Inject constructor(
         view.setErc20BalanceButtonAction { view.navigateToErc20Screen() }
     }
 
-    private fun formatEthAddress() = ETHEREUM_ADDRESS.take(FIRST_DIGITS_TO_TAKE) +
-            "..." +
-            ETHEREUM_ADDRESS.takeLast(LAST_DIGITS_TO_TAKE)
+    private fun formatEthAddress() =
+        configurationConstants.ethereumAddress.take(FIRST_DIGITS_TO_TAKE) +
+                "..." +
+                configurationConstants.ethereumAddress.takeLast(LAST_DIGITS_TO_TAKE)
 
     private fun loadAccountBalance(view: HomeContract.View) {
         applicationScheduler.schedule(
-            balanceRepository.getAccountBalance(ETHEREUM_ADDRESS),
+            balanceRepository.getAccountBalance(configurationConstants.ethereumAddress),
             { onBalanceLoaded(view, it) },
             { onaBalanceLoadingFailed(view) },
             this

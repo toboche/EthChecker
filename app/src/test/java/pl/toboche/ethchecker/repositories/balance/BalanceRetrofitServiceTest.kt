@@ -1,5 +1,7 @@
 package pl.toboche.ethchecker.repositories.balance
 
+import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.mock
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -7,6 +9,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import pl.toboche.ethchecker.base.ConfigurationConstants
 
 
 class BalanceRetrofitServiceTest {
@@ -14,9 +17,13 @@ class BalanceRetrofitServiceTest {
     val server = MockWebServer().apply {
         start()
     }
+    val mockConfigurationConstants: ConfigurationConstants = mock {
+        on { etherscanApiUrl } doReturn server.url("/").toString()
+    }
     val systemUnderTest =
-        ProvidedBalanceModule(server.url("/").toString()).provideBalanceRetrofitService(
-            OkHttpClient()
+        ProvidedBalanceModule().provideBalanceRetrofitService(
+            OkHttpClient(),
+            mockConfigurationConstants
         )
 
     val mockStatus = "1"

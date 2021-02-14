@@ -1,7 +1,7 @@
 package pl.toboche.ethchecker.repositories.erc20
 
 import io.reactivex.Single
-import pl.toboche.ethchecker.base.ConfigurationConstants.ETHEREUM_ADDRESS
+import pl.toboche.ethchecker.base.ConfigurationConstants
 import pl.toboche.ethchecker.repositories.balance.BalanceResponse
 import pl.toboche.ethchecker.repositories.balance.BalanceRetrofitService
 import java.util.*
@@ -9,7 +9,8 @@ import javax.inject.Inject
 
 class Erc20TokenBalanceRemoteRepository @Inject constructor(
     private val erc20TokenListRetrofitService: Erc20TokenListRetrofitService,
-    private val balanceRetrofitService: BalanceRetrofitService
+    private val balanceRetrofitService: BalanceRetrofitService,
+    private val configurationConstants: ConfigurationConstants
 ) : Erc20TokenBalanceRepository {
 
     private var cachedTokens: TokensResponse? = null
@@ -21,7 +22,7 @@ class Erc20TokenBalanceRemoteRepository @Inject constructor(
             .filter { symbolContainsSearchText(it, searchText) }
             .flatMapSingle { token ->
                 balanceRetrofitService.getErc20TokenBalance(
-                    address = ETHEREUM_ADDRESS,
+                    address = configurationConstants.ethereumAddress,
                     contractAddress = token.address
                 ).map { mapToTokenBalance(token, it) }
             }
