@@ -10,6 +10,7 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
     fun showErc20BalanceScreen() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_view, Erc20BalanceFragment())
+            .addToBackStack(null)
             .commit()
     }
 }

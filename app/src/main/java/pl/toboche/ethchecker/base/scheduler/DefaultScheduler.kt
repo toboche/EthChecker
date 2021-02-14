@@ -53,9 +53,8 @@ class DefaultScheduler @Inject constructor(
     }
 
     override fun dispose(subscriber: Any) {
-        subscriptions[subscriber]
-            ?: emptyList<Disposable>()
-                .forEach { it.dispose() }
+        subscriptions[subscriber]!!
+            .forEach { it.dispose() }
 
         subscriptions.remove(subscriber)
     }
