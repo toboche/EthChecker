@@ -10,7 +10,7 @@ class BalanceRemoteRepository @Inject constructor(
 ) : BalanceRepository {
 
     companion object {
-        val GWEI_TO_ETH_MULTIPLIER = 1_000_000_000_000_000_000.toBigDecimal()
+        val WEI_TO_ETH_MULTIPLIER = 1_000_000_000_000_000_000.toBigDecimal()
     }
 
     override fun getAccountBalance(address: String): Single<AccountBalance> =
@@ -23,7 +23,7 @@ class BalanceRemoteRepository @Inject constructor(
         )
 
     private fun getBalanceInEth(address: String) = balanceRetrofitService.getBalance(address)
-        .map { it.result.toBigDecimal().divide(GWEI_TO_ETH_MULTIPLIER) }
+        .map { it.result.toBigDecimal().divide(WEI_TO_ETH_MULTIPLIER) }
 
     private fun getEthPriceInDollars() = cryptoPriceRetrofitService.getPrice()
         .map { it.ethereum.usd.toBigDecimal() }

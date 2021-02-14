@@ -26,18 +26,24 @@ class HomePresenter @Inject constructor(
 
     override fun attach(view: HomeContract.View) {
         super.attach(view)
-        val addressToShow = ETHEREUM_ADDRESS.take(FIRST_DIGITS_TO_TAKE) +
-                "..." +
-                ETHEREUM_ADDRESS.takeLast(LAST_DIGITS_TO_TAKE)
+        val addressToShow = formatEthAddress()
         view.showAddress(addressToShow)
         view.showProgress()
+        loadAccountBalance(view)
+        view.setErc20BalanceButtonAction { view.navigateToErc20Screen() }
+    }
+
+    private fun formatEthAddress() = ETHEREUM_ADDRESS.take(FIRST_DIGITS_TO_TAKE) +
+            "..." +
+            ETHEREUM_ADDRESS.takeLast(LAST_DIGITS_TO_TAKE)
+
+    private fun loadAccountBalance(view: HomeContract.View) {
         applicationScheduler.schedule(
             balanceRepository.getAccountBalance(ETHEREUM_ADDRESS),
             { onBalanceLoaded(view, it) },
             { onaBalanceLoadingFailed(view) },
             this
         )
-        view.setErc20BalanceButtonAction { view.navigateToErc20Screen() }
     }
 
     private fun onaBalanceLoadingFailed(view: HomeContract.View) {
